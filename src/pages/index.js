@@ -1,4 +1,4 @@
-import api from "../api";
+import stockTimeSeries from "../api";
 import React, { useState } from "react";
 import {
   LineChart,
@@ -19,17 +19,14 @@ function IndexPage() {
     e.preventDefault();
 
     setMessage("Loading...");
-
-    api
-      .stockTimeSeries(ticker)
+    stockTimeSeries(ticker)
       .then((response) => {
         setResponseData(response.data);
         setMessage("");
-        console.log(response);
       })
       .catch((error) => {
         setMessage("Error");
-        console.log(error);
+        console.error(error);
       });
   }
   return (
@@ -63,7 +60,9 @@ function IndexPage() {
               type="text"
               placeholder="SPY"
               value={ticker}
-              onChange={(e) => setTicker(e.target.value)}
+              onChange={(e) => {
+                setTicker(e.target.value);
+              }}
             />
           </label>
           <button type="submit">Submit</button>
